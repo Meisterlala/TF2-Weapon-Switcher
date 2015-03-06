@@ -88,7 +88,7 @@ cfg = 0
 
 
 disguiseKit = 0
-maxslots = 3
+maxslots = 4
 
 
 
@@ -214,12 +214,11 @@ return
 SetTimer:
 SetTimer, RefreshGUI, 1000
 SetTimer, GetWindowname, 250
-SetTimer, CapsLock, 250
+;SetTimer, CapsLock, 250
 SetTimer, GetCurrentSlot, 100
 ;SetTimer, Bunny, -10000
 ;SetTimer, Hopp, 125
 ;SetTimer, SetCurrentSlot, 20
-
 if (cfg = "1") {
 	SetTimer,  readcfg, 250
 }
@@ -233,6 +232,10 @@ Hotkey, *$2, 2K, on
 Hotkey, *$3, 3K, on
 Hotkey, *$4, 4K, on
 Hotkey, *$5, 5K, On
+Hotkey, *$6, 6K, On
+Hotkey, *$7, 7K, On
+Hotkey, *$8, 8K, On
+Hotkey, *$9, 9K, On
 Hotkey, *$%QKEY%, QKEY,On
 Hotkey, *$WheelDown, WheelDown, on
 Hotkey, *$Wheelup, Wheelup, on
@@ -246,18 +249,32 @@ Hotkey, *$2, 2K, off
 Hotkey, *$3, 3K, off
 Hotkey, *$4, 4K, off
 Hotkey, *$5, 5K, off
+Hotkey, *$6, 6K, off
+Hotkey, *$7, 7K, off
+Hotkey, *$8, 8K, off
+Hotkey, *$9, 9K, off
 Hotkey, *$%QKEY%, QKEY,off
 Hotkey, *$WheelDown, WheelDown, off 
 Hotkey, *$Wheelup, Wheelup, off 
 } else {
+Hotkey, *$Capslock, CapsLock,off
 Hotkey, *$1, 1K, off
 Hotkey, *$2, 2K, off
 Hotkey, *$3, 3K, off
 Hotkey, *$4, 4K, off
 Hotkey, *$5, 5K, off
+Hotkey, *$6, 6K, off
+Hotkey, *$7, 7K, off
+Hotkey, *$8, 8K, off
+Hotkey, *$9, 9K, off
 Hotkey, *$%QKEY%, QKEY,off
 Hotkey, *$WheelDown, WheelDown, off 
 Hotkey, *$Wheelup, Wheelup, off 
+}
+IF (CapsLock = "1" and togglestate = "Turn off" and windowfound = "1") {
+Hotkey, *$Capslock, CapsLock,on
+} else {
+Hotkey, *$Capslock, CapsLock,off	
 }
 return
 
@@ -294,9 +311,8 @@ return
 
 
 CapsLock:
-if (getkeystate("Capslock", "t") = "1" and capslock = "1") {
-	SetCapsLockState, off
-}
+Send, {CapsLock}
+SetCapsLockState, off
 return
 
 
@@ -464,7 +480,7 @@ gui, 4: add, Text, center x10 y10 h250 guimove w230, This Feture adds Text to yo
 gui, 4: font, s15, Verdana
 gui, 4: add, Button, center x10 y270 h40 w110 gdontdestroy4, Do It
 gui, 4: add, Button, center x130 y270 h40 w110  gdestroy4, Cancel
-gui, 4:show, border h320 w250
+gui, 4:show, h320 w250
 return
 destroy4:
 gui, 4:destroy
@@ -491,7 +507,7 @@ gui, 3: add, Text, center x10 y10 h230 guimove w230, Please Select your Quickswi
 gui, 3: font, s15, Verdana
 gui, 3: add, text, center x10 y240 h30 guimove w230 c5b7a8c , %A_UserName%
 gui, 3: add, Button, center x10 y270 h40 w230 gdestroy3, OK
-gui, 3: show, border h320 w250
+gui, 3: show, h320 w250
 return
 destroy3:
 gui, 3:destroy
@@ -607,7 +623,7 @@ gui, 2: -Caption AlwaysOnTop Border
 gui, 2: font, s15, Verdana
 gui, 2: add, Text, center x10 y10 h40 guimove w230, Succesfully saved
 gui, 2: add, Button, center x10 y50 h40 w230 gdestroy2, OK
-gui, 2:show, border h100 w250
+gui, 2:show, h100 w250
 return
 destroy2:
 gui, 2:destroy
@@ -818,8 +834,10 @@ FileRead, Content, %tfpath%\cfg\%classname%.cfg
 IfInString, Content, //////////// This Is Created with the TF2 Weapon Switcher ////////////
 {
     MsgBox, 4096, Error, The cfg-files were already created.
-    return
+	cfg = 1
+	IniWrite, %CFG%, %A_Temp%\AHK_TF2_config.ini, TF2, CFG
 	Content = 0
+    return
 }
 else 
 {
@@ -898,6 +916,8 @@ IfExist, %tfpath%\condump002.txt
 		maxslots = 3
 		return
 	} 
+FileDelete, %tfpath%\condump*.txt	
+
 
 return
 
@@ -934,7 +954,15 @@ return
 
 1K:
 send, {Blind}1
-if (currentslot <> "1" and tempdis = "0") {
+if (rebind15 = 1) {
+	
+	Currentslot := tempslot2
+	lastslot := tempslot3
+	tempdis = 0
+	rebind15 = 0
+	gosub, RefreshGUI
+	gosub commands
+} else if (currentslot <> "1" and tempdis = "0") {
 lastlastslot = %lastslot%
 lastslot = %currentslot%
 currentslot = 1	
@@ -947,7 +975,15 @@ return
 
 2K:
 send, {Blind}2
-if (currentslot <> 2 and tempdis = "0") {
+if (rebind15 = 1) {
+	
+	Currentslot := tempslot2
+	lastslot := tempslot3
+	tempdis = 0
+	rebind15 = 0
+	gosub, RefreshGUI
+	gosub commands
+} else if (currentslot <> 2 and tempdis = "0") {
 lastlastslot = %lastslot%
 lastslot = %currentslot%
 currentslot = 2	
@@ -958,7 +994,15 @@ return
 
 3K:
 send, {Blind}3
-if (currentslot <> 3 and tempdis = "0") {
+if (rebind15 = 1) {
+	
+	Currentslot := tempslot2
+	lastslot := tempslot3
+	tempdis = 0
+	rebind15 = 0
+	gosub, RefreshGUI
+	gosub commands
+} else if (currentslot <> 3 and tempdis = "0") {
 lastlastslot = %lastslot%
 lastslot = %currentslot%
 currentslot = 3
@@ -969,7 +1013,15 @@ return
 
 4K:
 send, {Blind}4
-if (maxslots >= "4" ) {
+if (rebind15 = 1) {
+	
+	Currentslot := tempslot2
+	lastslot := tempslot3
+	tempdis = 0
+	rebind15 = 0
+	gosub, RefreshGUI
+	gosub commands
+} else if (maxslots >= "4" ) {
 if (currentslot <> 4 and tempdis = "0") {
 lastlastslot = %lastslot%
 lastslot = %currentslot%
@@ -982,7 +1034,15 @@ return
 
 5K:
 send, {Blind}5
-if (maxslots >= "5" ) {
+if (rebind15 = 1) {
+	
+	Currentslot := tempslot2
+	lastslot := tempslot3
+	tempdis = 0
+	rebind15 = 0
+	gosub, RefreshGUI
+	gosub commands
+} else if (maxslots >= "5" ) {
 if (currentslot <> 5 and tempdis = "0") {
 lastlastslot = %lastslot%
 lastslot = %currentslot%
@@ -995,6 +1055,65 @@ return
 
 
 
+6K:
+send, {Blind}6
+if (rebind15 = 1) {
+	
+	Currentslot := tempslot2
+	lastslot := tempslot3
+	tempdis = 0
+	rebind15 = 0
+	gosub, RefreshGUI
+	gosub commands
+}
+return
+
+
+7K:
+send, {Blind}7
+if (rebind15 = 1) {
+	
+	Currentslot := tempslot2
+	lastslot := tempslot3
+	rebind15 = 0
+	gosub, RefreshGUI
+	gosub commands
+}
+return
+
+
+8K:
+send, {Blind}8
+if (rebind15 = 1) {
+	
+	Currentslot := tempslot2
+	lastslot := tempslot3
+	tempdis = 0
+	rebind15 = 0
+	gosub, RefreshGUI
+	gosub commands
+}
+return
+
+
+9K:
+send, {Blind}9
+if (rebind15 = 1) {
+	
+	Currentslot := tempslot2
+	lastslot := tempslot3
+	tempdis = 0
+	rebind15 = 0
+	gosub, RefreshGUI
+	gosub commands
+}
+return
+
+
+
+
+
+
 
 
 
@@ -1002,7 +1121,7 @@ return
 
 
 Wheelup:
-send {Blind}{Wheelup}
+send, {Blind}{Wheelup}
 if (maxslots = "3") {
 	if (currentslot = "3") {
 		lastlastslot = %lastslot%
@@ -1215,17 +1334,18 @@ lastlastslot = %lastslot%
 tempslot = %lastslot%
 lastslot = %currentslot%
 currentslot = %tempslot%
-send, {q up}
+gosub, RefreshGUI
+send, {Blind}{q up}
 	if (currentslot = "1") {
-		send, 1
+		send, {Blind}1
 	} else if (currentslot = "2") {
-		send, 2
+		send, {Blind}2
 	} else if (currentslot = "3") {
-		send, 3
+		send, {Blind}3
 	} else if (currentslot = "4") {
-		send, 4
+		send, {Blind}4
 	} else if (currentslot = "5") {
-		send, 5
+		send, {Blind}5
 	}
 goto commands
 gosub, RefreshGUI
@@ -1278,17 +1398,17 @@ return
 commands:
 if (title = "Team Fortress 2" and togglestate = "Turn off") {
 	if (currentslot = "1") {
-		send, %1KEY%
+		send, {Blind}%1KEY%
 	} else if (currentslot = "2") {
-		send, %2KEY%
+		send, {Blind}%2KEY%
 	} else if (currentslot = "3") {
-		send, %3KEY%
+		send, {Blind}%3KEY%
 	} else if (currentslot = "4") {
-		send, %4KEY%
-		; gosub, build
+		send, {Blind}%4KEY%
+		gosub, build
 		gosub, disguise
 	} else if (currentslot = "5") {
-		send, %5KEY%
+		send, {Blind}%5KEY%
 		; gosub, destroy
 	}
 }
@@ -1301,49 +1421,20 @@ return
 
 
 
-disguise:
 
+
+disguise:
 
 tempslot = %currentslot%
 tempslot2 = %lastslot%
 tempslot3 = %lastlastslot%
-if (currentslot = "4" and title = "Team Fortress 2" and maxslots = "4" togglestate = "Turn off" and disguiseKit = "1" and break = "0") {
-	tempdis = 1
-	KeyWait, 4
-	loop {
-;	while (currentslot = "4" and title = "Team Fortress 2" and togglestate = "Turn off" and disguiseKit = "1" and break = "0") {
-		tempdis = 1
-		If (GetKeyState("1","P") or GetKeyState("2","P") or GetKeyState("3","P") or GetKeyState("4","P") or GetKeyState("5","P") or GetKeyState("6","P") or GetKeyState("7","P") or GetKeyState("8","P") or GetKeyState("9","P")) {
-			tempdis = 1
-			KeyWait, 1
-			KeyWait, 2
-			KeyWait, 3
-			KeyWait, 4
-			KeyWait, 5
-			KeyWait, 6
-			KeyWait, 7
-			KeyWait, 8
-			KeyWait, 9
-			KeyWait, 0
-			sleep, 100
-			currentslot := tempslot2
-			lastslot := tempslot3
-			tempdis = 0
-			gosub, commands
-			break
-		} else {
-		}
-		if (title <> "Team Fortress 2" or togglestate <> "Turn off") {
-			break
-			tempdis = 0
-		}
-	} 
-		
-} else {
+if (maxslots = 4 and togglestate = "Turn off") {
+	rebind15 = 1
 	
-	tempdis = 0
-}
+} else {
+rebind15 = 0	
 
+}
 return
 
 
@@ -1354,51 +1445,14 @@ build:
 tempslot = %currentslot%
 tempslot2 = %lastslot%
 tempslot3 = %lastlastslot%
-if (currentslot = "4" and title = "Team Fortress 2" and maxslots = "5" and togglestate = "Turn off" and disguiseKit = "0") {
-	tempdis = 1
-	KeyWait, 4
-	loop {
-;	while (currentslot = "4" and title = "Team Fortress 2" and togglestate = "Turn off" and disguiseKit = "1" and break = "0") {
-		tempdis = 1
-		If (GetKeyState("1","P") or GetKeyState("2","P") or GetKeyState("3","P") or GetKeyState("4","P")) {
-			tempdis = 1
-			KeyWait, 1
-			KeyWait, 2
-			KeyWait, 3
-			KeyWait, 4
-			sleep, 100
-			currentslot := 3
-			lastslot := tempslot3
-			tempdis = 0
-			msgbox, 1-4
-			gosub, commands
-			break
-		} else if (GetKeyState("5","P")) {
-			MsgBox, 5
-			KeyWait, 5
-			currentslot := 5
-			lastslot := tempslot3
-			tempdis = 0
-			gosub, commands
-			break
-		}
-		if (break = "1") {
-			break = 0
-			break
-		}
-		if (title <> "Team Fortress 2" or togglestate <> "Turn off") {
-			break
-			tempdis = 0
-		}
-		
-	} 
-		
+if (maxslots = 5 and togglestate = "Turn off") {
+	rebind15 = 1
+	
 } else {
-	tempdis = 0
+rebind15 = 0	
+
 }
 return
-
-
 
 
 
@@ -1415,30 +1469,12 @@ Destroy:
 tempslot = %currentslot%
 tempslot2 = %lastslot%
 tempslot3 = %lastlastslot%
-if (currentslot = "5" and title = "Team Fortress 2" and maxslots = "5" and togglestate = "Turn off" and disguiseKit = "0" and break = "0") {
-	tempdis = 1
-	KeyWait, 4
-	loop {
-;	while (currentslot = "4" and title = "Team Fortress 2" and togglestate = "Turn off" and disguiseKit = "1" and break = "0") {
-		tempdis = 1
-		If (GetKeyState("1","P") or GetKeyState("2","P") or GetKeyState("3","P") or GetKeyState("4","P")) {
-			tempdis = 1
-			KeyWait, 1
-			KeyWait, 2
-			KeyWait, 3
-			KeyWait, 4
-			sleep, 100
-			currentslot := 3
-			lastslot := tempslot3
-			tempdis = 0
-			gosub, commands
-			break
-		} else {
-		}
-	} 
-		
+if (maxslots = 5 and togglestate = "Turn off") {
+	rebind15 = 1
+	
 } else {
-	tempdis = 0
+rebind15 = 0	
+
 }
 return
 
@@ -1487,10 +1523,10 @@ Hotkey, *$2, 2K, off
 Hotkey, *$3, 3K, off
 Hotkey, *$4, 4K, off
 Hotkey, *$5, 5K, off
-;~ Hotkey, $1, 6,off
-;~ Hotkey, $1, 7,off
-;~ Hotkey, $1, 8,off
-;~ Hotkey, $1, 9,off
+Hotkey, *$6, 6K, off
+Hotkey, *$7, 7K, off
+Hotkey, *$8, 8K, off
+Hotkey, *$9, 9K, off
 Hotkey, *$%QKEY%, QKEY, off
 
 
@@ -1499,7 +1535,7 @@ Hotkey, *$Wheelup, Wheelup, off
 
 
 
-
+Hotkey, *$Capslock, CapsLock,off
 Hotkey, *$space, spacehot,off
 
 return
