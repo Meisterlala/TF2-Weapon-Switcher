@@ -148,10 +148,10 @@ Return
 
 
 FileInstall:
-FileInstall, icon.ico, %A_Temp%\AHK_TF2_REALICON.ico
-FileInstall, background.png, %A_Temp%\AHK_TF2_ICON
-FileInstall, X.png, %A_Temp%\AHK_TF2_X
-FileInstall, questionmark.png, %A_Temp%\AHK_TF2_questionmark
+FileInstall, resurce\icon.ico, %A_Temp%\AHK_TF2_REALICON.ico
+FileInstall, resurce\background.png, %A_Temp%\AHK_TF2_ICON
+FileInstall, resurce\X.png, %A_Temp%\AHK_TF2_X
+FileInstall, resurce\questionmark.png, %A_Temp%\AHK_TF2_questionmark
 Menu, TRAY, Icon, %A_Temp%\AHK_TF2_REALICON.ico,, 1
 return
 
