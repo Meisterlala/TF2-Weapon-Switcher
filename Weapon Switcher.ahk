@@ -85,8 +85,8 @@ cfg = 0
 
 
 
-disguiseKit = 0
-maxslots = 4
+disguiseKit = 0 ; does nothing6
+maxslots = 5
 
 
 
@@ -120,13 +120,20 @@ goto, Exit
 exit:
 FileDelete, %A_Temp%\AHK_TF2_ICON
 FileDelete, %A_Temp%\AHK_TF2_X
-FileDelete, %A_Temp%\AHK_TF2_questionmark %A_Temp%\AHK_TF2_REALICON.ico
+FileDelete, %A_Temp%\AHK_TF2_questionmark
 FileDelete, %A_Temp%\AHK_TF2_REALICON.ico
+FileDelete, %A_Temp%\AHK_TF2_minimize
 gui, Destroy
 ExitApp
 Exit
 return
 
+
+
+
+Minimize:
+Gui, Minimize
+return
 
 
 
@@ -150,6 +157,7 @@ FileInstall, resurce\icon.ico, %A_Temp%\AHK_TF2_REALICON.ico
 FileInstall, resurce\background.png, %A_Temp%\AHK_TF2_ICON
 FileInstall, resurce\X.png, %A_Temp%\AHK_TF2_X
 FileInstall, resurce\questionmark.png, %A_Temp%\AHK_TF2_questionmark
+FileInstall, resurce\Minimize.png, %A_Temp%\AHK_TF2_minimize
 Menu, TRAY, Icon, %A_Temp%\AHK_TF2_REALICON.ico,, 1
 return
 
@@ -242,18 +250,18 @@ Hotkey, *$%QKEY%, QKEY,On
 Hotkey, *$WheelDown, WheelDown, on
 Hotkey, *$Wheelup, Wheelup, on
 } else if (togglestate = "Turn off" and windowfound = "1" and maxslots = "5") {
-Hotkey, *$1, 1K, off
-Hotkey, *$2, 2K, off
-Hotkey, *$3, 3K, off
-Hotkey, *$4, 4K, off
-Hotkey, *$5, 5K, off
-Hotkey, *$6, 6K, off
-Hotkey, *$7, 7K, off
-Hotkey, *$8, 8K, off
-Hotkey, *$9, 9K, off
-Hotkey, *$%QKEY%, QKEY,off
-Hotkey, *$WheelDown, WheelDown, off 
-Hotkey, *$Wheelup, Wheelup, off 
+Hotkey, *$1, 1K, on
+Hotkey, *$2, 2K, on
+Hotkey, *$3, 3K, on
+Hotkey, *$4, 4K, on
+Hotkey, *$5, 5K, On
+Hotkey, *$6, 6K, On
+Hotkey, *$7, 7K, On
+Hotkey, *$8, 8K, On
+Hotkey, *$9, 9K, On
+Hotkey, *$%QKEY%, QKEY,On
+Hotkey, *$WheelDown, WheelDown, on
+Hotkey, *$Wheelup, Wheelup, on
 } else {
 Hotkey, *$Capslock, CapsLock,off
 Hotkey, *$1, 1K, off
@@ -527,10 +535,11 @@ if (debugmode = "1") {
 Gui, Color, bd3b3b,
 Gui,  +SysMenu +MinimizeBox 
 gui, font, s15, Verdana
-Gui, Add, text, -Wrap Uppercase guimove x25 y5 h30 w220 center, TF2 Weapon Switcher  ; draggable
+Gui, Add, text, -Wrap Uppercase guimove x10 y5 h30 w220, TF2 Weapon Switcher  ; draggable
 Gui, Add, Button, x10 y40 h60 w280 gtogglestate -Tabstop , %Togglestate%
 ; Gui, Add, Picture, x270 y5 h20 w20 gexit, X
-Gui, Add, Picture, x265 y5 h25 w25 gexit, %A_Temp%\AHK_TF2_X
+Gui, Add, Picture, x235 y6 h25 w25 gminimize, %A_Temp%\AHK_TF2_minimize
+Gui, Add, Picture, x265 y6 h25 w25 gexit, %A_Temp%\AHK_TF2_X
 
 gui, show,  w300 h110, TF2 Weapon Switcher
 ; DisableCloseButton()
@@ -962,6 +971,16 @@ if (rebind15 = 1) {
 	lastslot := tempslot3
 	tempdis = 0
 	rebind15 = 0
+	rebindforeng = 0
+	gosub, RefreshGUI
+	gosub commands
+} else if (rebindforeng = "1") {
+
+	Currentslot = 3
+	lastslot := tempslot3
+	tempdis = 0
+	rebind15 = 0
+	rebindforeng = 0
 	gosub, RefreshGUI
 	gosub commands
 } else if (currentslot <> "1" and tempdis = "0") {
@@ -983,6 +1002,16 @@ if (rebind15 = 1) {
 	lastslot := tempslot3
 	tempdis = 0
 	rebind15 = 0
+	rebindforeng = 0
+	gosub, RefreshGUI
+	gosub commands
+} else if (rebindforeng = "1") {
+
+	Currentslot = 3
+	lastslot := tempslot3
+	tempdis = 0
+	rebind15 = 0
+	rebindforeng = 0
 	gosub, RefreshGUI
 	gosub commands
 } else if (currentslot <> 2 and tempdis = "0") {
@@ -1002,6 +1031,16 @@ if (rebind15 = 1) {
 	lastslot := tempslot3
 	tempdis = 0
 	rebind15 = 0
+	rebindforeng = 0
+	gosub, RefreshGUI
+	gosub commands
+} else if (rebindforeng = "1") {
+
+	Currentslot = 3
+	lastslot := tempslot3
+	tempdis = 0
+	rebind15 = 0
+	rebindforeng = 0
 	gosub, RefreshGUI
 	gosub commands
 } else if (currentslot <> 3 and tempdis = "0") {
@@ -1021,6 +1060,16 @@ if (rebind15 = 1) {
 	lastslot := tempslot3
 	tempdis = 0
 	rebind15 = 0
+	rebindforeng = 0
+	gosub, RefreshGUI
+	gosub commands
+} else if (rebindforeng = "1") {
+
+	Currentslot = 3
+	lastslot := tempslot3
+	tempdis = 0
+	rebind15 = 0
+	rebindforeng = 0
 	gosub, RefreshGUI
 	gosub commands
 } else if (maxslots >= "4" ) {
@@ -1042,6 +1091,16 @@ if (rebind15 = 1) {
 	lastslot := tempslot3
 	tempdis = 0
 	rebind15 = 0
+	rebindforeng = 0
+	gosub, RefreshGUI
+	gosub commands
+} else if (rebindforeng = "1") {
+
+	Currentslot = 3
+	lastslot := tempslot3
+	tempdis = 0
+	rebind15 = 0
+	rebindforeng = 0
 	gosub, RefreshGUI
 	gosub commands
 } else if (maxslots >= "5" ) {
@@ -1067,6 +1126,15 @@ if (rebind15 = 1) {
 	rebind15 = 0
 	gosub, RefreshGUI
 	gosub commands
+} else if (rebindforeng = "1") {
+
+	Currentslot = 3
+	lastslot := tempslot3
+	tempdis = 0
+	rebind15 = 0
+	rebindforeng = 0
+	gosub, RefreshGUI
+	gosub commands
 }
 return
 
@@ -1078,6 +1146,15 @@ if (rebind15 = 1) {
 	Currentslot := tempslot2
 	lastslot := tempslot3
 	rebind15 = 0
+	gosub, RefreshGUI
+	gosub commands
+} else if (rebindforeng = "1") {
+
+	Currentslot = 3
+	lastslot := tempslot3
+	tempdis = 0
+	rebind15 = 0
+	rebindforeng = 0
 	gosub, RefreshGUI
 	gosub commands
 }
@@ -1094,6 +1171,15 @@ if (rebind15 = 1) {
 	rebind15 = 0
 	gosub, RefreshGUI
 	gosub commands
+} else if (rebindforeng = "1") {
+
+	Currentslot = 3
+	lastslot := tempslot3
+	tempdis = 0
+	rebind15 = 0
+	rebindforeng = 0
+	gosub, RefreshGUI
+	gosub commands
 }
 return
 
@@ -1106,6 +1192,15 @@ if (rebind15 = 1) {
 	lastslot := tempslot3
 	tempdis = 0
 	rebind15 = 0
+	gosub, RefreshGUI
+	gosub commands
+} else if (rebindforeng = "1") {
+
+	Currentslot = 3
+	lastslot := tempslot3
+	tempdis = 0
+	rebind15 = 0
+	rebindforeng = 0
 	gosub, RefreshGUI
 	gosub commands
 }
@@ -1181,7 +1276,6 @@ if (maxslots = "3") {
 		return
 		gosub commands
 		gosub, RefreshGUI
-		return
 	} else if (currentslot = "4") {
 
 		break = 1
@@ -1192,7 +1286,6 @@ if (maxslots = "3") {
 		return
 		gosub commands
 		gosub, RefreshGUI
-		return
 	} else if (currentslot = "3") {
 	;	MsgBox, 3
 		lastlastslot = %lastslot%
@@ -1200,7 +1293,6 @@ if (maxslots = "3") {
 		currentslot = 4
 		gosub commands
 		gosub, RefreshGUI
-		return
 	} else if (currentslot = "2") {
 	;	MsgBox, 2
 		lastlastslot = %lastslot%
@@ -1208,7 +1300,6 @@ if (maxslots = "3") {
 		currentslot = 3
 		gosub commands
 		gosub, RefreshGUI
-		return
 	} else if (currentslot = "1") {
 	;	MsgBox, 1
 		lastlastslot = %lastslot%
@@ -1216,7 +1307,6 @@ if (maxslots = "3") {
 		currentslot = 2
 		gosub commands
 		gosub, RefreshGUI
-		return
 	}
 }
 break = 0
@@ -1413,7 +1503,7 @@ if (title = "Team Fortress 2" and togglestate = "Turn off") {
 		gosub, disguise
 	} else if (currentslot = "5") {
 		send, {Blind}%5KEY%
-		; gosub, destroy
+		gosub, destroy
 	}
 }
 return
@@ -1450,10 +1540,11 @@ tempslot = %currentslot%
 tempslot2 = %lastslot%
 tempslot3 = %lastlastslot%
 if (maxslots = 5 and togglestate = "Turn off") {
-	rebind15 = 1
+	rebind15 = 0
+	rebindforeng = 1
 	
 } else {
-rebind15 = 0	
+rebindforeng = 0
 
 }
 return
@@ -1474,10 +1565,10 @@ tempslot = %currentslot%
 tempslot2 = %lastslot%
 tempslot3 = %lastlastslot%
 if (maxslots = 5 and togglestate = "Turn off") {
-	rebind15 = 1
-	
+	rebind15 = 0
+	rebindforeng = 1
 } else {
-rebind15 = 0	
+rebindforeng = 0
 
 }
 return
