@@ -691,8 +691,13 @@ return
 
 writeclasses:
 
-classname = scout
-donttuochthis =
+
+classname = 1
+loop, 9
+{
+if  (classname = 1) {
+	classname = scout
+	donttuochthis =
 (
 clear
 echo First
@@ -702,10 +707,7 @@ condump
 echo third
 condump
 )
-
-loop, 9
-{
-if (classname = "scout") {
+} else if (classname = "scout") {
 	classname = soldier
 	donttuochthis =
 (
@@ -864,11 +866,11 @@ FileAppend,
 
 
 
-bind "%1Key%" ""						// Enter Here your command, that gets executed if you have your Primary weapon equiped
-bind "%2Key%" ""						// Enter Here your command, that gets executed if you have your Secondary weapon equiped
-bind "%3Key%" ""						// Enter Here your command, that gets executed if you have your Meele weapon equiped
-bind "%4Key%" ""						// Enter Here your command, that gets executed if you have your Disguise Kit equiped
-bind "%5Key%" ""						// Not Yet Supported. Enter Here your command, that gets executed if you have your PDA equiped
+bind "%1Key%" ""						// Primary weapon equiped
+bind "%2Key%" ""						// Secondary weapon equiped
+bind "%3Key%" ""						// Meele weapon equiped
+bind "%4Key%" ""						// Disguise Kit equiped
+bind "%5Key%" ""						// PDA equiped
 
 
 /////////////////////// Please dont touch this  //////////////////////
