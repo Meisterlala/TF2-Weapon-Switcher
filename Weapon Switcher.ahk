@@ -86,7 +86,7 @@ cfg = 0
 
 
 disguiseKit = 0 ; does nothing6
-maxslots = 5
+maxslots = 3
 
 
 
@@ -225,9 +225,11 @@ SetTimer, GetCurrentSlot, 100
 ;SetTimer, Bunny, -10000
 ;SetTimer, Hopp, 125
 ;SetTimer, SetCurrentSlot, 20
-if (cfg = "1") {
+
+;if (cfg = "1") {
 	SetTimer,  readcfg, 250
-}
+;}
+
 return
 
 
@@ -859,7 +861,6 @@ FileAppend,
 
 
 //////////// This Is Created with the TF2 Weapon Switcher ////////////
-////////////      Currnetly dosnt work with engineer      ////////////
 
 
 
