@@ -484,7 +484,7 @@ writeconfigs:
 gui, 4:Color, 9d312f,
 gui, 4: -Caption AlwaysOnTop Border
 gui, 4: font, s10, Verdana
-gui, 4: add, Text, center x10 y10 h250 guimove w230, This Feture adds Text to your class.cfg (e.g. soldier.cfg, pyro.cfg, scout.cfg) Please make sure to Backup your cfg files! Because this is an early version the engineer is not fully supported, because the build menu is really complicated.`n`n `n`nAre you Sure,`n that you wanna do that ?
+gui, 4: add, Text, center x10 y10 h250 guimove w230, This Feture adds Text to your class.cfg (e.g. soldier.cfg, pyro.cfg, scout.cfg) Please make sure to Backup your cfg files!`n`n`n`n`n `n`nAre you Sure,`n that you wanna do that ?
 gui, 4: font, s15, Verdana
 gui, 4: add, Button, center x10 y270 h40 w110 gdontdestroy4, Do It
 gui, 4: add, Button, center x130 y270 h40 w110  gdestroy4, Cancel
