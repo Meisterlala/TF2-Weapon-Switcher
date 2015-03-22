@@ -139,7 +139,7 @@ return
 
 
 delete:
-MsgBox,, Error, A Error a occurred with the config.ini'n Sorry for my bad coding :)
+MsgBox,, Error, A Error a occurred with the config.in `nSorry for my bad coding :)
 FileDelete, %A_Temp%\AHK_TF2_config.ini
 goto, Exit
 return
