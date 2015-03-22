@@ -139,7 +139,7 @@ return
 
 
 delete:
-MsgBox,, Error, A Error a occurred with the config.ini, Please Report the Bug. Sorry for my bad coding :)
+MsgBox,, Error, A Error a occurred with the config.ini'n Sorry for my bad coding :)
 FileDelete, %A_Temp%\AHK_TF2_config.ini
 goto, Exit
 return
@@ -405,7 +405,7 @@ Gui, Add, Edit, r1 -Wrap Lowercase center x10 y450 w25 h20 limit1 v5KEY, %5KEY%
 Gui, Add, text, r1 -Wrap Uppercase guimove x40 y203 h20 w250, Quickswitch
 Gui, Add, text, r1 -Wrap Uppercase guimove x40 y253 h20 w250, Primary Weapon
 Gui, Add, text, r1 -Wrap Uppercase guimove x40 y303 h20 w250, Secondary Weapon
-Gui, Add, text, r1 -Wrap Uppercase guimove x40 y353 h20 w250, Melle Weapon
+Gui, Add, text, r1 -Wrap Uppercase guimove x40 y353 h20 w250, Melee Weapon
 Gui, Add, text, r1 -Wrap Uppercase guimove x40 y403 h20 w250, Disguise Kit
 Gui, Add, text, r1 -Wrap Uppercase guimove x40 y453 h20 w250, PDA
 
@@ -591,7 +591,7 @@ IfExist, %A_Temp%\AHK_TF2_config.ini
 	IniRead, QKey, %A_Temp%\AHK_TF2_config.ini, Keybinds, Quickswitch
 	IniRead, 1Key, %A_Temp%\AHK_TF2_config.ini, Keybinds, PrimaryWeapon
 	IniRead, 2Key, %A_Temp%\AHK_TF2_config.ini, Keybinds, SecondaryWeapon
-	IniRead, 3Key, %A_Temp%\AHK_TF2_config.ini, Keybinds, MelleWeapon
+	IniRead, 3Key, %A_Temp%\AHK_TF2_config.ini, Keybinds, MeleeWeapon
 	IniRead, 4Key, %A_Temp%\AHK_TF2_config.ini, Keybinds, DisguiseKit
 	IniRead, 5Key, %A_Temp%\AHK_TF2_config.ini, Keybinds, PDA
 	
@@ -604,12 +604,16 @@ IfExist, %A_Temp%\AHK_TF2_config.ini
 	IniRead, TFpath, %A_Temp%\AHK_TF2_config.ini, TF2, TFpath
 
 	;MsgBox, Config File Found
+	
+	if (QKey = "ERROR" or 1Key = "ERROR" or 2Key = "ERROR" or 3Key = "ERROR" or 4Key = "ERROR" or 5Key = "ERROR" or bunny = "ERROR" or CapsLock = "ERROR" or DebugMode = "ERROR") {
+		goto delete
+	}
 	return
 } else {
 	;MsgBox, Config File Not Found
 	return
 }
-
+return
 
 
 Iniwrite:
@@ -618,7 +622,7 @@ gui, submit, NoHide
 IniWrite, %QKey%, %A_Temp%\AHK_TF2_config.ini, Keybinds, Quickswitch
 IniWrite, %1Key%, %A_Temp%\AHK_TF2_config.ini, Keybinds, PrimaryWeapon
 IniWrite, %2Key%, %A_Temp%\AHK_TF2_config.ini, Keybinds, SecondaryWeapon
-IniWrite, %3Key%, %A_Temp%\AHK_TF2_config.ini, Keybinds, MelleWeapon
+IniWrite, %3Key%, %A_Temp%\AHK_TF2_config.ini, Keybinds, MeleeWeapon
 IniWrite, %4Key%, %A_Temp%\AHK_TF2_config.ini, Keybinds, DisguiseKit
 IniWrite, %5Key%, %A_Temp%\AHK_TF2_config.ini, Keybinds, PDA
 
